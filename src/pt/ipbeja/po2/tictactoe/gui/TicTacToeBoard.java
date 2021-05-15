@@ -58,14 +58,14 @@ public class TicTacToeBoard extends GridPane implements View {
 
     @Override
     public void onGameWon(Player player) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "O jogador " + player + " venceu!");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Player " + player + " has won!");
         alert.showAndWait();
         game.startGame();
     }
 
     @Override
     public void onGameDraw() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "O jogo terminou empatado.");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Stalemate.");
         alert.showAndWait();
         game.startGame();
     }

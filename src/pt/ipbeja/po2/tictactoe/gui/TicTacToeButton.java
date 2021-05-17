@@ -12,9 +12,9 @@ import pt.ipbeja.po2.tictactoe.model.Mark;
 
 public class TicTacToeButton extends Button {
 
-    public static final Image EMPTY = new Image("resources/noplayer.png");
-    public static final Image PLAYER_X = new Image("resources/player1.png");
-    public static final Image PLAYER_O = new Image("resources/player2.png");
+    public static final Image EMPTY = new Image("resources/occupied_tunnel.png");
+    public static final Image PLAYER_X = new Image("resources/free_tunnel.png");
+    public static final Image PLAYER_O = new Image("resources/wall.png");
 
     private static final String HIGHLIGHTED_STYLE = "-fx-background-color: #ff0000; ";
 
@@ -24,6 +24,7 @@ public class TicTacToeButton extends Button {
         this.imageView = new ImageView(EMPTY);
         this.setHighlighted(false);
         this.setGraphic(this.imageView);
+        this.setStyle("-fx-padding: 0");
     }
 
     public void setX() {

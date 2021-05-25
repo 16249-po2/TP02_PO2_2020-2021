@@ -6,18 +6,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class GetMap {
 
     private static final String FILE_PATH = "./src/resources/map.txt";
     public static void GetMap() throws IOException {
         FileHandler fileHandler = new FileHandler(FILE_PATH);
-        System.out.println("No. of characters in file: " + fileHandler.getCharCount());
+        //System.out.println("Map size: " + fileHandler.getMapData());
+        System.out.println("Map size: " + fileHandler.getSize());
     }
 }
 
 class FileHandler {
     static BufferedReader reader = null;
+    static String[] mapData = new String[50];
 
     public FileHandler(String filePath) throws FileNotFoundException {
         File file = new File(filePath);
@@ -26,12 +29,32 @@ class FileHandler {
         reader = new BufferedReader(input);
     }
 
-    public static int getCharCount() throws IOException {
-        int charCount = 0;
-        String data;
-        while((data = reader.readLine()) != null) {
-            charCount += data.length();
+    public static String[] getMapData() throws IOException {
+        int iter = 0;
+        while((mapData[iter] = reader.readLine()) != null) {
+            if (mapData[iter].contains(" %")){
+                String tempPart[] = mapData[iter].split(" %");
+                mapData[iter] = tempPart[0];
+            }
+            iter++;
         }
-        return charCount;
+
+        //Array cleanup solution as per https://stackoverflow.com/a/4150305
+        mapData = Arrays.stream(mapData)
+                .filter(s -> (s != null && s.length() > 0))
+                .toArray(String[]::new);
+
+        return mapData;
+    }
+
+    public String getSize() {
+        try {
+            getMapData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mapData[0];
     }
 }
+
+//CURRENT OBJECTIVE MAKE THIS DATA AVAILABLE ELSEWHERE

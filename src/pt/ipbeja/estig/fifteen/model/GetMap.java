@@ -11,10 +11,18 @@ import java.util.Arrays;
 public class GetMap {
 
     private static final String FILE_PATH = "./src/resources/map.txt";
-    public static void GetMap() throws IOException {
-        FileHandler fileHandler = new FileHandler(FILE_PATH);
-        //System.out.println("Map size: " + fileHandler.getMapData());
-        System.out.println("Map size: " + fileHandler.getSize());
+    private static FileHandler fileHandler;
+
+    static {
+        try {
+            fileHandler = new FileHandler(FILE_PATH);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int[] mapDimensions() {
+        return Arrays.stream(fileHandler.getSize().split(" ")).mapToInt(Integer::parseInt).toArray();
     }
 }
 

@@ -6,6 +6,7 @@ import pt.ipbeja.estig.fifteen.model.GetMap;
 import pt.ipbeja.estig.fifteen.model.Position;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * The fifteen image in position (knows its position in the grid)
@@ -62,12 +63,7 @@ public class PositionImage extends ImageView
 		String filename = "/resources/images/" + imageName + ".png";
 		if (imageName.equals("empty")) {
 			this.setImage(null);
-
-			try {
-				GetMap.GetMap();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			System.out.println(Arrays.toString(GetMap.mapDimensions()));
 		}
 		else {
 			Image img = new Image(filename, SIZE, SIZE, false, false);

@@ -1,11 +1,11 @@
-package pt.ipbeja.estig.fifteen.model;
+package pt.ipbeja.estig.boulderdash.model;
 
-import pt.ipbeja.estig.fifteen.gui.View;
+import pt.ipbeja.estig.boulderdash.gui.View;
 
 import java.util.*;
 
 /**
- * The fifteen puzzle model
+ * The boulderdash puzzle model
  *
  * @author João Paulo Barros
  * @version 2014/05/19 - 2016/04/03 - 2017/04/19 - 2019/05/06 - 2021/05/18 - 2021/05/21
@@ -67,7 +67,7 @@ public class FifteenModel {
     }
 
     /**
-     * @return fifteen board content in text form
+     * @return boulderdash board content in text form
      */
     public String toString() {
         StringBuilder s = new StringBuilder();

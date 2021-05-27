@@ -1,9 +1,9 @@
-package pt.ipbeja.estig.fifteen.gui;
+package pt.ipbeja.estig.boulderdash.gui;
 
-import pt.ipbeja.estig.fifteen.model.Move;
+import pt.ipbeja.estig.boulderdash.model.Move;
 
 /**
- * The fifteen puzzle view
+ * The boulderdash puzzle view
  *
  * @author João Paulo Barros
  * @version 2021/05/18

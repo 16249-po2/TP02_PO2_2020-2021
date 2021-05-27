@@ -1,15 +1,14 @@
-package pt.ipbeja.estig.fifteen.gui;
+package pt.ipbeja.estig.boulderdash.gui;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import pt.ipbeja.estig.fifteen.model.GetMap;
-import pt.ipbeja.estig.fifteen.model.Position;
+import pt.ipbeja.estig.boulderdash.model.GetMap;
+import pt.ipbeja.estig.boulderdash.model.Position;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * The fifteen image in position (knows its position in the grid)
+ * The boulderdash image in position (knows its position in the grid)
  * 
  * @author João Paulo Barros
  * @version 2021/05/20
@@ -64,6 +63,7 @@ public class PositionImage extends ImageView
 		if (imageName.equals("empty")) {
 			this.setImage(null);
 			System.out.println(Arrays.toString(GetMap.mapDimensions()));
+			System.out.println(Arrays.toString(GetMap.mapTopography()));
 		}
 		else {
 			Image img = new Image(filename, SIZE, SIZE, false, false);

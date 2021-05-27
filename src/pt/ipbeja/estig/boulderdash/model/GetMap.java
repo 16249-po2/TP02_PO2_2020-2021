@@ -1,4 +1,4 @@
-package pt.ipbeja.estig.fifteen.model;
+package pt.ipbeja.estig.boulderdash.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,14 +16,24 @@ public class GetMap {
     static {
         try {
             fileHandler = new FileHandler(FILE_PATH);
+            fileHandler.getMapData();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static int[] mapDimensions() {
-        return Arrays.stream(fileHandler.getSize().split(" ")).mapToInt(Integer::parseInt).toArray();
+        return fileHandler.getSize();
     }
+
+    public static char[][] mapTopography(){
+        return fileHandler.getTopography();
+    }
+
+
+
 }
 
 class FileHandler {
@@ -55,14 +65,19 @@ class FileHandler {
         return mapData;
     }
 
-    public String getSize() {
-        try {
-            getMapData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mapData[0];
+    public int[] getSize() {
+        return Arrays.stream(mapData[0].split(" ")).mapToInt(Integer::parseInt).toArray();
     }
+
+    public char[][] getTopography() {
+        int[] mapSize = getSize();
+        char[][] topography = new char[mapSize[0]][mapSize[1]];
+        for (int i = 0; i < mapSize[0]; i++){
+                topography[i] = mapData[i + 1].toCharArray();
+        }
+        return topography;
+    }
+
 }
 
 //CURRENT OBJECTIVE MAKE THIS DATA AVAILABLE ELSEWHERE

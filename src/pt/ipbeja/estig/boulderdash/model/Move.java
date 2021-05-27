@@ -1,4 +1,4 @@
-package pt.ipbeja.estig.fifteen.model;
+package pt.ipbeja.estig.boulderdash.model;
 
 /**
  * Data for each piece movement Stores initial and final position

@@ -1,4 +1,4 @@
-package pt.ipbeja.estig.fifteen.model;
+package pt.ipbeja.estig.boulderdash.model;
 
 /**
  * Positions from 0 to number of lines and columns minus 1

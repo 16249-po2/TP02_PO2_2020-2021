@@ -1,4 +1,4 @@
-package pt.ipbeja.estig.fifteen.gui;
+package pt.ipbeja.estig.boulderdash.gui;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -19,10 +19,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import pt.ipbeja.estig.fifteen.model.Direction;
-import pt.ipbeja.estig.fifteen.model.FifteenModel;
-import pt.ipbeja.estig.fifteen.model.Move;
-import pt.ipbeja.estig.fifteen.model.Position;
+import pt.ipbeja.estig.boulderdash.model.Direction;
+import pt.ipbeja.estig.boulderdash.model.FifteenModel;
+import pt.ipbeja.estig.boulderdash.model.Move;
+import pt.ipbeja.estig.boulderdash.model.Position;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ import java.util.Map;
 //https://stackoverflow.com/questions/34033119/how-to-make-transparent-scene-and-stage-in-javafx
 
 /**
- * The fifteen main view
+ * The boulderdash main view
  *
  * @author João Paulo Barros
  * @version 2021/05/20

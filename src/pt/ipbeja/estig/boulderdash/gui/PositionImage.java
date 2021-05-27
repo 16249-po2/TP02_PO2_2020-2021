@@ -64,6 +64,7 @@ public class PositionImage extends ImageView
 			this.setImage(null);
 			System.out.println(Arrays.toString(GetMap.mapDimensions()));
 			System.out.println(Arrays.toString(GetMap.mapTopography()));
+			System.out.println(Arrays.toString(GetMap.playerStart()));
 		}
 		else {
 			Image img = new Image(filename, SIZE, SIZE, false, false);

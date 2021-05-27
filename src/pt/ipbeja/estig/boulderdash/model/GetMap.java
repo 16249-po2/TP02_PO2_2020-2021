@@ -32,7 +32,9 @@ public class GetMap {
         return fileHandler.getTopography();
     }
 
-
+    public static int[] playerStart() {
+        return fileHandler.getPlayer();
+    }
 
 }
 
@@ -78,6 +80,11 @@ class FileHandler {
         return topography;
     }
 
-}
+    public int[] getPlayer() {
+        int[] mapSize = getSize();
+        String[] tempPlayer = mapData[mapSize[0] + 1].split(" ");
+        int[] player = {Integer.parseInt(tempPlayer[1]), Integer.parseInt(tempPlayer[2])};
+        return player;
+    }
 
-//CURRENT OBJECTIVE MAKE THIS DATA AVAILABLE ELSEWHERE
+}

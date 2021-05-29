@@ -57,8 +57,8 @@ public class Position
     */
    public static boolean isInside(int line, int col)
    {
-      return 0 <= line && line < FifteenModel.N_LINES && 
-             0 <= col && col < FifteenModel.N_COLS;
+      return 0 <= line && line < BoulderDashModel.N_LINES &&
+             0 <= col && col < BoulderDashModel.N_COLS;
    }
 
    /* automatically generated in eclipse, 

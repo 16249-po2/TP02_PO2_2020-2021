@@ -36,6 +36,18 @@ public class GetMap {
         return fileHandler.getPlayer();
     }
 
+    public static int[] movingEnemyStart() {
+        return fileHandler.getMovingEnemy();
+    }
+
+    public static int[] staticEnemyStart() {
+        return fileHandler.getStaticEnemy();
+    }
+
+    public static int[] bonusStart() {
+        return fileHandler.getBonus();
+    }
+
 }
 
 class FileHandler {
@@ -86,5 +98,29 @@ class FileHandler {
         int[] player = {Integer.parseInt(tempPlayer[1]), Integer.parseInt(tempPlayer[2])};
         return player;
     }
+
+    public int[] getMovingEnemy() {
+        int[] mapSize = getSize();
+        String[] tempMovingEnemy = mapData[mapSize[0] + 3].split(" ");
+        int[] movingEnemy = {Integer.parseInt(tempMovingEnemy[1]), Integer.parseInt(tempMovingEnemy[2])};
+        return movingEnemy;
+    }
+
+    public int[] getStaticEnemy() {
+        int[] mapSize = getSize();
+        String[] tempStaticEnemy = mapData[mapSize[0] + 4].split(" ");
+        int[] staticEnemy = {Integer.parseInt(tempStaticEnemy[1]), Integer.parseInt(tempStaticEnemy[2])};
+        return staticEnemy;
+    }
+
+    public int[] getBonus() {
+        int[] mapSize = getSize();
+        String[] tempBonus = mapData[mapSize[0] + 5].split(" ");
+        int[] bonus = {Integer.parseInt(tempBonus[1]), Integer.parseInt(tempBonus[2])};
+        return bonus;
+    }
+
+    //TODO diamonds
+    //diamonds will need another route to get there
 
 }

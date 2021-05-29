@@ -10,7 +10,7 @@ import java.util.*;
  * @author João Paulo Barros
  * @version 2014/05/19 - 2016/04/03 - 2017/04/19 - 2019/05/06 - 2021/05/18 - 2021/05/21
  */
-public class FifteenModel {
+public class BoulderDashModel {
     public static final int N_LINES = 4;
     public static final int N_COLS = 4;
     public static final int EMPTY = 0;
@@ -31,7 +31,7 @@ public class FifteenModel {
     /**
      * Creates board in winning position
      */
-    public FifteenModel(View view) {
+    public BoulderDashModel(View view) {
         this.moves = new ArrayDeque<>();
         this.resetBoard();
         this.timer = new Timer();
@@ -44,7 +44,7 @@ public class FifteenModel {
      * @param minIter        minimum number of iterations to mix board
      * @param additionalIter maximum number of additional iterations to mix board
      */
-    public FifteenModel(View view, int minIter, int additionalIter) {
+    public BoulderDashModel(View view, int minIter, int additionalIter) {
         this(view); // call default constructor Fifteen()
         this.mix(minIter, additionalIter);
         this.resetTimer();
@@ -55,15 +55,15 @@ public class FifteenModel {
      * Puts the board in the winning position (numbers in sequence)
      */
     private void resetBoard() {
-        this.pieces = new int[FifteenModel.N_LINES][FifteenModel.N_COLS];
+        this.pieces = new int[BoulderDashModel.N_LINES][BoulderDashModel.N_COLS];
         int pieceNumber = 1;
-        for (int line = 0; line < FifteenModel.N_LINES; line++) {
-            for (int col = 0; col < FifteenModel.N_COLS; col++) {
+        for (int line = 0; line < BoulderDashModel.N_LINES; line++) {
+            for (int col = 0; col < BoulderDashModel.N_COLS; col++) {
                 this.pieces[line][col] = pieceNumber++;
             }
         }
-        this.pieces[FifteenModel.N_LINES - 1][FifteenModel.N_COLS - 1] = FifteenModel.EMPTY; // empty
-        this.emptyPosition = new Position(FifteenModel.N_LINES - 1, FifteenModel.N_COLS - 1);
+        this.pieces[BoulderDashModel.N_LINES - 1][BoulderDashModel.N_COLS - 1] = BoulderDashModel.EMPTY; // empty
+        this.emptyPosition = new Position(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1);
     }
 
     /**
@@ -142,7 +142,7 @@ public class FifteenModel {
             while ((m = moves.poll()) != null) {
                 Move mr = m.getReversed();
                 applyMove(mr);
-                FifteenModel.sleep(sleepTime);
+                BoulderDashModel.sleep(sleepTime);
                 boolean winning = inWinningPositions();
 
                 notifyViews(mr, winning, timerValue);
@@ -331,7 +331,7 @@ public class FifteenModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FifteenModel that = (FifteenModel) o;
+        BoulderDashModel that = (BoulderDashModel) o;
         return timerValue == that.timerValue &&
                 Arrays.equals(pieces, that.pieces) &&
                 Objects.equals(emptyPosition, that.emptyPosition) &&

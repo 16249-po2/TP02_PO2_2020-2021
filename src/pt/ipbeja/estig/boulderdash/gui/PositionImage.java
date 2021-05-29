@@ -65,6 +65,9 @@ public class PositionImage extends ImageView
 			System.out.println(Arrays.toString(GetMap.mapDimensions()));
 			System.out.println(Arrays.toString(GetMap.mapTopography()));
 			System.out.println(Arrays.toString(GetMap.playerStart()));
+			System.out.println(Arrays.toString(GetMap.movingEnemyStart()));
+			System.out.println(Arrays.toString(GetMap.staticEnemyStart()));
+			System.out.println(Arrays.toString(GetMap.bonusStart()));
 		}
 		else {
 			Image img = new Image(filename, SIZE, SIZE, false, false);

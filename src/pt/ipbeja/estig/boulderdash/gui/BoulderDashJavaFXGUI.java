@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import pt.ipbeja.estig.boulderdash.model.Direction;
-import pt.ipbeja.estig.boulderdash.model.FifteenModel;
+import pt.ipbeja.estig.boulderdash.model.BoulderDashModel;
 import pt.ipbeja.estig.boulderdash.model.Move;
 import pt.ipbeja.estig.boulderdash.model.Position;
 
@@ -36,9 +36,9 @@ import java.util.Map;
  * @author João Paulo Barros
  * @version 2021/05/20
  */
-public class FifteenJavaFXGUI extends Application implements View {
+public class BoulderDashJavaFXGUI extends Application implements View {
     private static final String ICON_FILE = "/resources/images/puzzle15.jpg";
-    private final FifteenModel model;
+    private final BoulderDashModel model;
 
     private final PositionImage[][] positionImages;
     private Button closeButton;
@@ -67,10 +67,10 @@ public class FifteenJavaFXGUI extends Application implements View {
     /**
      * Create window with board
      */
-    public FifteenJavaFXGUI() {
-        this.model = new FifteenModel(this);
+    public BoulderDashJavaFXGUI() {
+        this.model = new BoulderDashModel(this);
         this.model.mix(5, 10);
-        this.positionImages = new PositionImage[FifteenModel.N_LINES][FifteenModel.N_COLS];
+        this.positionImages = new PositionImage[BoulderDashModel.N_LINES][BoulderDashModel.N_COLS];
     }
 
     @Override
@@ -145,8 +145,8 @@ public class FifteenJavaFXGUI extends Application implements View {
 
 
     private void createPieces() {
-        int nLines = FifteenModel.N_LINES;
-        int nCols = FifteenModel.N_COLS;
+        int nLines = BoulderDashModel.N_LINES;
+        int nCols = BoulderDashModel.N_COLS;
 
         // can be adapted to read the map from the file
         this.pane.getChildren().clear();
@@ -174,7 +174,7 @@ public class FifteenJavaFXGUI extends Application implements View {
 
     void setKeyHandle(Scene scene) {
         scene.setOnKeyPressed(keyEvent -> {
-            Direction dir = FifteenJavaFXGUI.directionMap.get(keyEvent.getCode());
+            Direction dir = BoulderDashJavaFXGUI.directionMap.get(keyEvent.getCode());
             if (dir != null) {
                 model.keyPressed(dir);
             } else {

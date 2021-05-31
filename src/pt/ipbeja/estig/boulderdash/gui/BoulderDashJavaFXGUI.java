@@ -78,7 +78,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         this.setAppIcon(stage, ICON_FILE);
         stage.setTitle("Fifteen Puzzle");
 
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.DECORATED);
         stage.setScene(this.createScene());
         stage.show();
 

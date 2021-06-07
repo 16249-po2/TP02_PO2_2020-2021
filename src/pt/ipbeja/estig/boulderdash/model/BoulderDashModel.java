@@ -11,9 +11,10 @@ import java.util.*;
  * @version 2014/05/19 - 2016/04/03 - 2017/04/19 - 2019/05/06 - 2021/05/18 - 2021/05/21
  */
 public class BoulderDashModel {
+    private static GetMap getMap;
 
-    public final int N_LINES = getN_LINES();
-    public final int N_COLS = getN_COLS();
+    public static final int N_LINES = getN_LINES();
+    public static final int N_COLS = getN_COLS();
     public static final int EMPTY = 0;
 
     private final static Random RAND = new Random();
@@ -29,12 +30,12 @@ public class BoulderDashModel {
 
     private View view;
 
-    public int getN_LINES(GetMap getMap){
-        return getMap.mapDimensions[0];
+    public static int getN_LINES(){
+        return getMap.mapDimensions()[0];
     }
 
-    public int getN_COLS(GetMap getMap){
-        return getMap.mapDimensions[1];
+    public static int getN_COLS(){
+        return getMap.mapDimensions()[1];
     }
 
     /**

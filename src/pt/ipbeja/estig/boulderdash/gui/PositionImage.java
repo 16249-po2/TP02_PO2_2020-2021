@@ -63,7 +63,11 @@ public class PositionImage extends ImageView
 		if (imageName.equals("empty")) {
 			this.setImage(null);
 			System.out.println(Arrays.toString(GetMap.mapDimensions()));
-			System.out.println(Arrays.toString(GetMap.mapTopography()));
+			//System.out.println(Arrays.toString(GetMap.mapTopography()));
+			char[][] arr = GetMap.mapTopography();
+			for (int i = 0; i < arr.length; i++) {
+				System.out.println(Arrays.toString(arr[i]));
+			}
 			System.out.println(Arrays.toString(GetMap.playerStart()));
 			System.out.println(Arrays.toString(GetMap.movingEnemyStart()));
 			System.out.println(Arrays.toString(GetMap.staticEnemyStart()));

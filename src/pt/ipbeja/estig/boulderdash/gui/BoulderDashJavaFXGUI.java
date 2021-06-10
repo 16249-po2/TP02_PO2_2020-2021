@@ -19,11 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import pt.ipbeja.estig.boulderdash.model.Direction;
-import pt.ipbeja.estig.boulderdash.model.BoulderDashModel;
-import pt.ipbeja.estig.boulderdash.model.Move;
-import pt.ipbeja.estig.boulderdash.model.Position;
+import pt.ipbeja.estig.boulderdash.model.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,21 +141,30 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         return scene;
     }
 
-
+    /**
+     * Defining image from processed text file to GUI tiles
+     * 2021-06-10
+     */
     private void createPieces() {
         int nLines = BoulderDashModel.N_LINES;
         int nCols = BoulderDashModel.N_COLS;
+        char[][] arr = GetMap.mapTopography();
 
         // can be adapted to read the map from the file
         this.pane.getChildren().clear();
         for (int line = 0; line < nLines; line++) {
             for (int col = 0; col < nCols; col++) {
                 Position pos = new Position(line, col);
-                String text = this.model.pieceTextAt(pos);
-                PositionImage pi = new PositionImage(text, pos);
-                this.pane.getChildren().add(pi); // add to gui
-                this.positionImages[line][col] = pi; // add to array
-                pi.setOnMouseClicked(this::handle);
+                String text = "" + arr[line][col];
+                try {
+                    PositionImage pi = new PositionImage(text, pos);
+                    this.pane.getChildren().add(pi); // add to gui
+                    this.positionImages[line][col] = pi; // add to array
+                    pi.setOnMouseClicked(this::handle);
+                }
+                catch (Exception ex) {
+                    System.err.println(ex + text);
+                }
             }
         }
     }

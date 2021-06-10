@@ -84,12 +84,12 @@ class FileHandler {
     }
 
     public char[][] getTopography() {
-        int[] mapSize = getSize();
-        char[][] topography = new char[mapSize[0]][mapSize[1]];
-        for (int i = 0; i < mapSize[0]; i++){
+            int[] mapSize = getSize();
+            char[][] topography = new char[mapSize[0]][mapSize[1]];
+            for (int i = 0; i < mapSize[0]; i++){
                 topography[i] = mapData[i + 1].toCharArray();
-        }
-        return topography;
+            }
+            return topography;
     }
 
     public int[] getPlayer() {

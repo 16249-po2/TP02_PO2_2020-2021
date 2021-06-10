@@ -21,7 +21,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import pt.ipbeja.estig.boulderdash.model.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -154,7 +153,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         this.pane.getChildren().clear();
         for (int line = 0; line < nLines; line++) {
             for (int col = 0; col < nCols; col++) {
-                Position pos = new Position(line, col);
+                AbstractPosition pos = new AbstractPosition(line, col);
                 String text = "" + arr[line][col];
                 try {
                     PositionImage pi = new PositionImage(text, pos);
@@ -175,7 +174,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
      */
     public void handle(MouseEvent e) {
         PositionImage pi = (PositionImage) e.getSource();
-        Position pos = pi.getLineCol();
+        AbstractPosition pos = pi.getLineCol();
         model.pieceSelected(pos); // inform model
     }
 
@@ -226,7 +225,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
             imageToMove.updateLineCol(dCol, dLine);
             this.positionImages[endLine][endCol] = imageToMove;
 
-            imageToReplace.setLineColAndXY(new Position(beginLine, beginCol));
+            imageToReplace.setLineColAndXY(new AbstractPosition(beginLine, beginCol));
             this.positionImages[beginLine][beginCol] = imageToReplace;
         }
     }

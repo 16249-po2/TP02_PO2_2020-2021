@@ -21,7 +21,7 @@ public class BoulderDashModel {
     private final static int[][] NEIGHBORS = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
     private int[][] pieces;
-    private Position emptyPosition;
+    private AbstractPosition emptyAbstractPosition;
 
     private Deque<Move> moves;
 
@@ -73,7 +73,7 @@ public class BoulderDashModel {
             }
         }
         this.pieces[BoulderDashModel.N_LINES - 1][BoulderDashModel.N_COLS - 1] = BoulderDashModel.EMPTY; // empty
-        this.emptyPosition = new Position(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1);
+        this.emptyAbstractPosition = new AbstractPosition(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1);
     }
 
     /**
@@ -92,23 +92,23 @@ public class BoulderDashModel {
     }
 
     /**
-     * get piece at given position
+     * get piece at given abstractPosition
      *
-     * @param position to get piece
-     * @return the piece at position
+     * @param abstractPosition to get piece
+     * @return the piece at abstractPosition
      */
-    public int pieceAt(Position position) {
-        return this.pieces[position.getLine()][position.getCol()];
+    public int pieceAt(AbstractPosition abstractPosition) {
+        return this.pieces[abstractPosition.getLine()][abstractPosition.getCol()];
     }
 
     /**
-     * get piece at given position
+     * get piece at given abstractPosition
      *
-     * @param position to get piece
-     * @return the text for the piece at position
+     * @param abstractPosition to get piece
+     * @return the text for the piece at abstractPosition
      */
-    public String pieceTextAt(Position position) {
-        int i = this.pieceAt(position);
+    public String pieceTextAt(AbstractPosition abstractPosition) {
+        int i = this.pieceAt(abstractPosition);
         return (i == EMPTY) ? ("empty") : (i + "");
     }
 
@@ -121,11 +121,11 @@ public class BoulderDashModel {
     public void mix(int minMoves, int maxMoves) {
         assert (minMoves <= maxMoves);
         // see http://docs.oracle.com/javase/8/docs/api/java/util/Deque.html
-        Position empty = new Position(N_LINES - 1, N_COLS - 1);
+        AbstractPosition empty = new AbstractPosition(N_LINES - 1, N_COLS - 1);
         int nMoves = minMoves + RAND.nextInt(maxMoves - minMoves + 1);
 
         for (int i = 0; i < nMoves; i++) {
-            Position pieceToMove = this.randomlySelectNeighborOf(empty);
+            AbstractPosition pieceToMove = this.randomlySelectNeighborOf(empty);
             Move m = new Move(pieceToMove, empty); // occupy empty space
             this.applyMove(m);
             empty = pieceToMove; // moved piece position is now the empty
@@ -183,35 +183,35 @@ public class BoulderDashModel {
         return list;
     }
 
-    public void pieceSelected(Position pos) {
+    public void pieceSelected(AbstractPosition pos) {
         this.movePieceAt(pos);
     }
 
     public void keyPressed(Direction direction) {
-        Position pos = getPositionNextToEmpty(direction);
+        AbstractPosition pos = getPositionNextToEmpty(direction);
         this.movePieceAt(pos);
     }
 
-    private Position getPositionNextToEmpty(Direction direction) {
+    private AbstractPosition getPositionNextToEmpty(Direction direction) {
         switch (direction) {
-            case UP: return new Position(emptyPosition.getLine() + 1, emptyPosition.getCol());
-            case DOWN: return new Position(emptyPosition.getLine() - 1, emptyPosition.getCol());
-            case LEFT: return new Position(emptyPosition.getLine(), emptyPosition.getCol() + 1) ;
-            case RIGHT: return new Position(emptyPosition.getLine(), emptyPosition.getCol() - 1);
+            case UP: return new AbstractPosition(emptyAbstractPosition.getLine() + 1, emptyAbstractPosition.getCol());
+            case DOWN: return new AbstractPosition(emptyAbstractPosition.getLine() - 1, emptyAbstractPosition.getCol());
+            case LEFT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() + 1) ;
+            case RIGHT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() - 1);
         }
         return null; // should never happen! Added to avoid compilation error
     }
 
     /**
-     * Tries to move a piece at position If moved notifies views
+     * Tries to move a piece at abstractPosition If moved notifies views
      *
-     * @param position position of piece to move
+     * @param abstractPosition abstractPosition of piece to move
      */
-    private void movePieceAt(Position position) {
-        if (position.isInside()) {
-            Position emptyPos = this.getEmptyInNeighborhood(position);
+    private void movePieceAt(AbstractPosition abstractPosition) {
+        if (abstractPosition.isInside()) {
+            AbstractPosition emptyPos = this.getEmptyInNeighborhood(abstractPosition);
             if (emptyPos != null) {
-                Move newMove = new Move(position, emptyPos);
+                Move newMove = new Move(abstractPosition, emptyPos);
                 this.applyMove(newMove);
                 this.moves.addFirst(newMove); // add at head (begin) of deque
                 boolean winning = inWinningPositions();
@@ -275,13 +275,13 @@ public class BoulderDashModel {
     }
 
     private void swap(Move move) {
-        assert (move.getEnd().equals(emptyPosition));
+        assert (move.getEnd().equals(emptyAbstractPosition));
 
         this.swap(move.getBegin(), move.getEnd());
-        this.emptyPosition = move.getBegin();
+        this.emptyAbstractPosition = move.getBegin();
     }
 
-    private void swap(Position pInit, Position pEnd) {
+    private void swap(AbstractPosition pInit, AbstractPosition pEnd) {
         int posXi = pInit.getLine();
         int posYi = pInit.getCol();
         int posXe = pEnd.getLine();
@@ -301,15 +301,15 @@ public class BoulderDashModel {
      * @param empty the empty position
      * @return the selected neighbor position
      */
-    private Position randomlySelectNeighborOf(Position empty) {
+    private AbstractPosition randomlySelectNeighborOf(AbstractPosition empty) {
         int line = 0;
         int col = 0;
         do {
             int[] pos = NEIGHBORS[RAND.nextInt(NEIGHBORS.length)];
             line = empty.getLine() + pos[0];
             col = empty.getCol() + pos[1];
-        } while (Position.isInside(line, col) == false);
-        return new Position(line, col);
+        } while (AbstractPosition.isInside(line, col) == false);
+        return new AbstractPosition(line, col);
     }
 
     /**
@@ -318,10 +318,10 @@ public class BoulderDashModel {
      * @param center position to find empty in its neighborhood
      * @return the empty position or null if non-existent in the neighborhood
      */
-    private Position getEmptyInNeighborhood(Position center) {
-        boolean isNeighbor = Math.abs(center.getLine() - emptyPosition.getLine()) == 1 ^
-                Math.abs(center.getCol() - emptyPosition.getCol()) == 1;
-        return isNeighbor ? emptyPosition : null;
+    private AbstractPosition getEmptyInNeighborhood(AbstractPosition center) {
+        boolean isNeighbor = Math.abs(center.getLine() - emptyAbstractPosition.getLine()) == 1 ^
+                Math.abs(center.getCol() - emptyAbstractPosition.getCol()) == 1;
+        return isNeighbor ? emptyAbstractPosition : null;
     }
 
     /**
@@ -344,7 +344,7 @@ public class BoulderDashModel {
         BoulderDashModel that = (BoulderDashModel) o;
         return timerValue == that.timerValue &&
                 Arrays.equals(pieces, that.pieces) &&
-                Objects.equals(emptyPosition, that.emptyPosition) &&
+                Objects.equals(emptyAbstractPosition, that.emptyAbstractPosition) &&
                 Objects.equals(moves, that.moves) &&
                 Objects.equals(timer, that.timer) &&
                 Objects.equals(view, that.view);
@@ -352,7 +352,7 @@ public class BoulderDashModel {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(emptyPosition, moves, timer, timerValue, view);
+        int result = Objects.hash(emptyAbstractPosition, moves, timer, timerValue, view);
         result = 31 * result + Arrays.hashCode(pieces);
         return result;
     }

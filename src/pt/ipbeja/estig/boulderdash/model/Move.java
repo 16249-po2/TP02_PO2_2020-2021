@@ -8,10 +8,10 @@ package pt.ipbeja.estig.boulderdash.model;
  */
 public class Move
 {
-	private final Position begin;
-	private final Position end;
+	private final AbstractPosition begin;
+	private final AbstractPosition end;
 
-	public Move(Position begin, Position end)
+	public Move(AbstractPosition begin, AbstractPosition end)
 	{
 		this.begin = begin;
 		this.end = end;
@@ -24,7 +24,7 @@ public class Move
 	 * @param end
 	 * @return new Move object if begin and end are inside, null otherwise
 	 */
-	public static Move createMove(Position begin, Position end)
+	public static Move createMove(AbstractPosition begin, AbstractPosition end)
 	{
 		return begin.isInside() && end.isInside() ? new Move(begin, end) : null;
 	}
@@ -32,7 +32,7 @@ public class Move
 	/**
 	 * @return the begin position
 	 */
-	public Position getBegin()
+	public AbstractPosition getBegin()
 	{
 		return this.begin;
 	}
@@ -40,7 +40,7 @@ public class Move
 	/**
 	 * @return the end position
 	 */
-	public Position getEnd()
+	public AbstractPosition getEnd()
 	{
 		return this.end;
 	}

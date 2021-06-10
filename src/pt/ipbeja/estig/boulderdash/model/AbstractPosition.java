@@ -5,11 +5,11 @@ package pt.ipbeja.estig.boulderdash.model;
  * @author João Paulo Barros
  * @version 2014/05/18 - 2016/04/03
  */ 
-public class Position
+public abstract class AbstractPosition
 {
    private final int line, col;
    
-   public Position(int line, int col)
+   public AbstractPosition(int line, int col)
    {
       this.line = line;
       this.col = col;
@@ -46,7 +46,7 @@ public class Position
     */
    public boolean isInside()
    {
-      return Position.isInside(this.getLine(), this.getCol());
+      return AbstractPosition.isInside(this.getLine(), this.getCol());
    }
    
    /**
@@ -59,42 +59,5 @@ public class Position
    {
       return 0 <= line && line < BoulderDashModel.N_LINES &&
              0 <= col && col < BoulderDashModel.N_COLS;
-   }
-
-   /* automatically generated in eclipse, 
-    * with Source->Generate hashCode() and equals()
-    * (non-Javadoc)
-    * @see java.lang.Object#hashCode()
-    */
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + col;
-      result = prime * result + line;
-      return result;
-   }
-
-   /* automatically generated in eclipse, 
-    * with Source->Generate hashCode() and equals() 
-    * (non-Javadoc)
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   @Override
-   public boolean equals(Object obj)
-   {
-      if (this == obj)
-         return true;
-      if (obj == null)
-         return false;
-      if (getClass() != obj.getClass())
-         return false;
-      Position other = (Position) obj;
-      if (col != other.col)
-         return false;
-      if (line != other.line)
-         return false;
-      return true;
    }
 }

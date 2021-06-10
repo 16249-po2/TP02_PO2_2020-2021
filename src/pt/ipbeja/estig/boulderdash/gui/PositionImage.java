@@ -2,13 +2,13 @@ package pt.ipbeja.estig.boulderdash.gui;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import pt.ipbeja.estig.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.boulderdash.model.GetMap;
-import pt.ipbeja.estig.boulderdash.model.Position;
 
 import java.util.Arrays;
 
 /**
- * The boulderdash image in position (knows its position in the grid)
+ * The boulderdash image in abstractPosition (knows its abstractPosition in the grid)
  * 
  * @author João Paulo Barros
  * @version 2021/05/20
@@ -17,37 +17,37 @@ import java.util.Arrays;
 public class PositionImage extends ImageView
 {
 	public final static int SIZE = 100;
-	private Position lineCol;
+	private AbstractPosition lineCol;
 
-	public PositionImage(String imageName, Position lineCol)
+	public PositionImage(String imageName, AbstractPosition lineCol)
 	{
 		// this could be used to populate icons on the map
 		this.setImageByName(imageName);
 		this.setLineColAndXY(lineCol);
 	}
 
-	public void setLineColAndXY(Position position) {
-		this.lineCol = position;
-		this.setX(position.getCol() * SIZE);
-		this.setY(position.getLine() * SIZE);
+	public void setLineColAndXY(AbstractPosition abstractPosition) {
+		this.lineCol = abstractPosition;
+		this.setX(abstractPosition.getCol() * SIZE);
+		this.setY(abstractPosition.getLine() * SIZE);
 	}
 
 	public void updateLineColAndXY(int dCol, int dLine) {
 		int col = this.lineCol.getCol() + dCol;
 		int line = this.lineCol.getLine() + dLine;
-		this.setLineColAndXY(new Position(line, col));
+		this.setLineColAndXY(new AbstractPosition(line, col));
 	}
 
 	public void updateLineCol(int dCol, int dLine) {
 		int col = this.lineCol.getCol() + dCol;
 		int line = this.lineCol.getLine() + dLine;
-		this.lineCol = new Position(line, col);
+		this.lineCol = new AbstractPosition(line, col);
 	}
 
 	/**
-	 * @return the position
+	 * @return the abstractPosition
 	 */
-	public Position getLineCol() {
+	public AbstractPosition getLineCol() {
 		return this.lineCol;
 	}
 

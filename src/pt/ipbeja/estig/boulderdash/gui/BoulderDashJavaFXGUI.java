@@ -153,7 +153,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         this.pane.getChildren().clear();
         for (int line = 0; line < nLines; line++) {
             for (int col = 0; col < nCols; col++) {
-                AbstractPosition pos = new AbstractPosition(line, col);
+                AbstractPosition pos = new AbstractPosition(line, col, text);
                 String text = "" + arr[line][col];
                 try {
                     PositionImage pi = new PositionImage(text, pos);

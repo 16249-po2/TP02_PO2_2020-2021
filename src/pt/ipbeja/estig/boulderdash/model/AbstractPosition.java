@@ -8,11 +8,13 @@ package pt.ipbeja.estig.boulderdash.model;
 public abstract class AbstractPosition
 {
    private final int line, col;
+   private final char text;
    
-   public AbstractPosition(int line, int col)
+   public AbstractPosition(int line, int col, char text)
    {
       this.line = line;
       this.col = col;
+      this.text = text;
    }
    
    /* (non-Javadoc)
@@ -38,6 +40,11 @@ public abstract class AbstractPosition
    public int getCol()
    {
       return this.col;
+   }
+
+   public char getText()
+   {
+      return this.text;
    }
 
    /**

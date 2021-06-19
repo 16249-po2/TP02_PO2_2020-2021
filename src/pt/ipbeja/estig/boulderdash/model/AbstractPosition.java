@@ -5,7 +5,7 @@ package pt.ipbeja.estig.boulderdash.model;
  * @author João Paulo Barros
  * @version 2014/05/18 - 2016/04/03
  */ 
-public abstract class AbstractPosition
+public class AbstractPosition
 {
    private final int line, col;
    private final char text;

@@ -35,13 +35,15 @@ public class PositionImage extends ImageView
 	public void updateLineColAndXY(int dCol, int dLine) {
 		int col = this.lineCol.getCol() + dCol;
 		int line = this.lineCol.getLine() + dLine;
-		this.setLineColAndXY(new AbstractPosition(line, col));
+		char text = this.lineCol.getText();
+		this.setLineColAndXY(new AbstractPosition(line, col, text));
 	}
 
 	public void updateLineCol(int dCol, int dLine) {
 		int col = this.lineCol.getCol() + dCol;
 		int line = this.lineCol.getLine() + dLine;
-		this.lineCol = new AbstractPosition(line, col);
+		char text = this.lineCol.getText();
+		this.lineCol = new AbstractPosition(line, col, text);
 	}
 
 	/**

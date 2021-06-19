@@ -153,17 +153,12 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         this.pane.getChildren().clear();
         for (int line = 0; line < nLines; line++) {
             for (int col = 0; col < nCols; col++) {
+                char text = arr[line][col];
                 AbstractPosition pos = new AbstractPosition(line, col, text);
-                String text = "" + arr[line][col];
-                try {
-                    PositionImage pi = new PositionImage(text, pos);
-                    this.pane.getChildren().add(pi); // add to gui
-                    this.positionImages[line][col] = pi; // add to array
-                    pi.setOnMouseClicked(this::handle);
-                }
-                catch (Exception ex) {
-                    System.err.println(ex + text);
-                }
+                PositionImage pi = new PositionImage("" + text, pos);
+                this.pane.getChildren().add(pi); // add to gui
+                this.positionImages[line][col] = pi; // add to array
+                pi.setOnMouseClicked(this::handle);
             }
         }
     }
@@ -208,8 +203,11 @@ public class BoulderDashJavaFXGUI extends Application implements View {
         if (lastMove != null) {
             int beginLine = lastMove.getBegin().getLine();
             int beginCol = lastMove.getBegin().getCol();
+            char beginText = lastMove.getBegin().getText();
             int endLine = lastMove.getEnd().getLine();
             int endCol = lastMove.getEnd().getCol();
+            char endText = lastMove.getEnd().getText();
+
 
             PositionImage imageToMove = this.positionImages[beginLine][beginCol];
             PositionImage imageToReplace = this.positionImages[endLine][endCol];
@@ -225,7 +223,7 @@ public class BoulderDashJavaFXGUI extends Application implements View {
             imageToMove.updateLineCol(dCol, dLine);
             this.positionImages[endLine][endCol] = imageToMove;
 
-            imageToReplace.setLineColAndXY(new AbstractPosition(beginLine, beginCol));
+            imageToReplace.setLineColAndXY(new AbstractPosition(beginLine, beginCol, beginText));
             this.positionImages[beginLine][beginCol] = imageToReplace;
         }
     }

@@ -73,7 +73,7 @@ public class BoulderDashModel {
             }
         }
         this.pieces[BoulderDashModel.N_LINES - 1][BoulderDashModel.N_COLS - 1] = BoulderDashModel.EMPTY; // empty
-        this.emptyAbstractPosition = new AbstractPosition(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1);
+        this.emptyAbstractPosition = new AbstractPosition(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1, 'L');
     }
 
     /**
@@ -121,7 +121,7 @@ public class BoulderDashModel {
     public void mix(int minMoves, int maxMoves) {
         assert (minMoves <= maxMoves);
         // see http://docs.oracle.com/javase/8/docs/api/java/util/Deque.html
-        AbstractPosition empty = new AbstractPosition(N_LINES - 1, N_COLS - 1);
+        AbstractPosition empty = new AbstractPosition(N_LINES - 1, N_COLS - 1, 'L');
         int nMoves = minMoves + RAND.nextInt(maxMoves - minMoves + 1);
 
         for (int i = 0; i < nMoves; i++) {
@@ -194,10 +194,10 @@ public class BoulderDashModel {
 
     private AbstractPosition getPositionNextToEmpty(Direction direction) {
         switch (direction) {
-            case UP: return new AbstractPosition(emptyAbstractPosition.getLine() + 1, emptyAbstractPosition.getCol());
-            case DOWN: return new AbstractPosition(emptyAbstractPosition.getLine() - 1, emptyAbstractPosition.getCol());
-            case LEFT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() + 1) ;
-            case RIGHT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() - 1);
+            case UP: return new AbstractPosition(emptyAbstractPosition.getLine() + 1, emptyAbstractPosition.getCol(), 'L');
+            case DOWN: return new AbstractPosition(emptyAbstractPosition.getLine() - 1, emptyAbstractPosition.getCol(), 'L');
+            case LEFT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() + 1, 'L') ;
+            case RIGHT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() - 1, 'L');
         }
         return null; // should never happen! Added to avoid compilation error
     }
@@ -309,7 +309,7 @@ public class BoulderDashModel {
             line = empty.getLine() + pos[0];
             col = empty.getCol() + pos[1];
         } while (AbstractPosition.isInside(line, col) == false);
-        return new AbstractPosition(line, col);
+        return new AbstractPosition(line, col, 'L');
     }
 
     /**

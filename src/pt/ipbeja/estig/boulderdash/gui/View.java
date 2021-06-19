@@ -9,5 +9,5 @@ import pt.ipbeja.estig.boulderdash.model.Move;
  * @version 2021/05/18
  */
 public interface View {
-    void notifyView(Move move, Boolean winning, int tValue);
+    void notifyView(Move move, int tValue);
 }

@@ -229,15 +229,10 @@ public class BoulderDashJavaFXGUI extends Application implements View {
     }
 
     @Override
-    public void notifyView(Move lastMove, Boolean wins, int timerValue) {
+    public void notifyView(Move lastMove, int timerValue) {
         Platform.runLater(() -> {
             if (lastMove != null) {
                 this.updateLayoutAfterMove(lastMove);
-            }
-            if (wins) {
-                this.model.stopTimer();
-                new Alert(AlertType.INFORMATION, "You win! ").showAndWait();
-                this.restart();
             }
             this.timeLabel.setText(timerValue + "");
         });

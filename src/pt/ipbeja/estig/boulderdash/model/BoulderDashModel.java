@@ -12,16 +12,14 @@ import java.util.*;
  */
 public class BoulderDashModel {
     private static GetMap getMap;
+    private Board board;
 
     public static final int N_LINES = getN_LINES();
     public static final int N_COLS = getN_COLS();
-    public static final int EMPTY = 0;
 
     private final static Random RAND = new Random();
     private final static int[][] NEIGHBORS = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
-    private int[][] pieces;
-    private AbstractPosition emptyAbstractPosition;
 
     private Deque<Move> moves;
 
@@ -38,12 +36,14 @@ public class BoulderDashModel {
         return getMap.mapDimensions()[1];
     }
 
+
     /**
      * Creates board in winning position
      */
     public BoulderDashModel(View view) {
         this.moves = new ArrayDeque<>();
-        this.resetBoard();
+        this.board = new Board(N_LINES, N_COLS);
+        this.board.resetBoard();
         this.timer = new Timer();
         this.view = view;
     }
@@ -61,56 +61,6 @@ public class BoulderDashModel {
         this.startTimer();
     }
 
-    /**
-     * Puts the board in the winning position (numbers in sequence)
-     */
-    private void resetBoard() {
-        this.pieces = new int[BoulderDashModel.N_LINES][BoulderDashModel.N_COLS];
-        int pieceNumber = 1;
-        for (int line = 0; line < BoulderDashModel.N_LINES; line++) {
-            for (int col = 0; col < BoulderDashModel.N_COLS; col++) {
-                this.pieces[line][col] = pieceNumber++;
-            }
-        }
-        this.pieces[BoulderDashModel.N_LINES - 1][BoulderDashModel.N_COLS - 1] = BoulderDashModel.EMPTY; // empty
-        this.emptyAbstractPosition = new AbstractPosition(BoulderDashModel.N_LINES - 1, BoulderDashModel.N_COLS - 1, 'L');
-    }
-
-    /**
-     * @return boulderdash board content in text form
-     */
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        for (int line = 0; line < N_LINES; line++) {
-            for (int col = 0; col < N_COLS; col++) {
-                s.append(String.format("%2d, ", this.pieces[line][col]));
-            }
-            s.setLength(s.length() - 2);
-            s.append("\n");
-        }
-        return s.toString();
-    }
-
-    /**
-     * get piece at given abstractPosition
-     *
-     * @param abstractPosition to get piece
-     * @return the piece at abstractPosition
-     */
-    public int pieceAt(AbstractPosition abstractPosition) {
-        return this.pieces[abstractPosition.getLine()][abstractPosition.getCol()];
-    }
-
-    /**
-     * get piece at given abstractPosition
-     *
-     * @param abstractPosition to get piece
-     * @return the text for the piece at abstractPosition
-     */
-    public String pieceTextAt(AbstractPosition abstractPosition) {
-        int i = this.pieceAt(abstractPosition);
-        return (i == EMPTY) ? ("empty") : (i + "");
-    }
 
     /**
      * mixes the puzzle with random moves
@@ -127,7 +77,7 @@ public class BoulderDashModel {
         for (int i = 0; i < nMoves; i++) {
             AbstractPosition pieceToMove = this.randomlySelectNeighborOf(empty);
             Move m = new Move(pieceToMove, empty); // occupy empty space
-            this.applyMove(m);
+            this.board.applyMove(m);
             empty = pieceToMove; // moved piece position is now the empty
             // position
             this.moves.addFirst(m); // add at head (begin) of deque
@@ -147,60 +97,24 @@ public class BoulderDashModel {
      * @param sleepTime time between each move
      */
     public void unmix(int sleepTime) {
-        Runnable task = () -> {
-            Move m;
-            while ((m = moves.poll()) != null) {
-                Move mr = m.getReversed();
-                applyMove(mr);
-                BoulderDashModel.sleep(sleepTime);
-                boolean winning = inWinningPositions();
-
-                notifyViews(mr, winning, timerValue);
-
-                if (winning) {
-                    moves.clear();
-                    break;
-                }
-            }
-        };
-        Thread threadToUnmix = new Thread(task);
-        threadToUnmix.start();
+//        Runnable task = () -> {
+//            Move m;
+//            while ((m = moves.poll()) != null) {
+//                Move mr = m.getReversed();
+//                board.applyMove(mr);
+//                BoulderDashModel.sleep(sleepTime);
+//
+//                notifyViews(mr, timerValue);
+//
+//            }
+//        };
+//        Thread threadToUnmix = new Thread(task);
+//        threadToUnmix.start();
     }
 
 
-    /**
-     * Get all the pieces in a new list
-     *
-     * @return list with all pieces (line order)
-     */
-    public List<Integer> getPieces() {
-        List<Integer> list = new ArrayList<>();
-        for (int line = 0; line < N_LINES; line++) {
-            for (int col = 0; col < N_COLS; col++) {
-                list.add(this.pieces[line][col]);
-            }
-        }
-        return list;
-    }
 
-    public void pieceSelected(AbstractPosition pos) {
-        this.movePieceAt(pos);
-    }
 
-    public void keyPressed(Direction direction) {
-        AbstractPosition pos = getPositionNextToEmpty(direction);
-        this.movePieceAt(pos);
-    }
-
-    private AbstractPosition getPositionNextToEmpty(Direction direction) {
-        switch (direction) {
-            case UP: return new AbstractPosition(emptyAbstractPosition.getLine() + 1, emptyAbstractPosition.getCol(), 'L');
-            case DOWN: return new AbstractPosition(emptyAbstractPosition.getLine() - 1, emptyAbstractPosition.getCol(), 'L');
-            case LEFT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() + 1, 'L') ;
-            case RIGHT: return new AbstractPosition(emptyAbstractPosition.getLine(), emptyAbstractPosition.getCol() - 1, 'L');
-        }
-        return null; // should never happen! Added to avoid compilation error
-    }
 
     /**
      * Tries to move a piece at abstractPosition If moved notifies views
@@ -209,17 +123,12 @@ public class BoulderDashModel {
      */
     private void movePieceAt(AbstractPosition abstractPosition) {
         if (abstractPosition.isInside()) {
-            AbstractPosition emptyPos = this.getEmptyInNeighborhood(abstractPosition);
+            AbstractPosition emptyPos = this.board.getEmptyInNeighborhood(abstractPosition);
             if (emptyPos != null) {
                 Move newMove = new Move(abstractPosition, emptyPos);
-                this.applyMove(newMove);
+                this.board.applyMove(newMove);
                 this.moves.addFirst(newMove); // add at head (begin) of deque
-                boolean winning = inWinningPositions();
-                this.notifyViews(newMove, winning, timerValue);
-                if (winning) {
-                    timerValue = 0;
-                    timer.cancel();
-                }
+                this.notifyViews(newMove, timerValue);
             }
         }
     }
@@ -228,12 +137,11 @@ public class BoulderDashModel {
      * Notify observers using methods inherited from from class Observable
      *
      * @param move    the executed move
-     * @param winning true if this is a winning position
      * @param tValue  current time count
      */
-    private void notifyViews(Move move, Boolean winning, int tValue) {
+    private void notifyViews(Move move, int tValue) {
 
-        this.view.notifyView(move, winning, tValue);
+        this.view.notifyView(move, tValue);
     }
 
     /**
@@ -245,55 +153,6 @@ public class BoulderDashModel {
         return this.moves.getFirst();
     }
 
-    /**
-     * Checks if board as all pieces in winning positions
-     *
-     * @return true if winning positions, false otherwise
-     */
-    public boolean inWinningPositions() {
-        int n = 1;
-        final int TOTAL = N_LINES * N_COLS;
-        for (int line = 0; line < N_LINES; line++) {
-            for (int col = 0; col < N_COLS; col++) {
-                if (this.pieces[line][col] != n && n < TOTAL) {
-                    return false;
-                }
-                n++;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Applies move m to the board assert(move != null)
-     *
-     * @param move the move to apply
-     */
-    private void applyMove(Move move) {
-        assert (move != null);
-        this.swap(move);
-    }
-
-    private void swap(Move move) {
-        assert (move.getEnd().equals(emptyAbstractPosition));
-
-        this.swap(move.getBegin(), move.getEnd());
-        this.emptyAbstractPosition = move.getBegin();
-    }
-
-    private void swap(AbstractPosition pInit, AbstractPosition pEnd) {
-        int posXi = pInit.getLine();
-        int posYi = pInit.getCol();
-        int posXe = pEnd.getLine();
-        int posYe = pEnd.getCol();
-        this.swap(posXi, posYi, posXe, posYe);
-    }
-
-    private void swap(int posXi, int posYi, int posXe, int posYe) {
-        int aux = this.pieces[posXe][posYe];
-        this.pieces[posXe][posYe] = this.pieces[posXi][posYi];
-        this.pieces[posXi][posYi] = aux;
-    }
 
     /**
      * Randomly selects position that can be moved to the empty position
@@ -312,17 +171,16 @@ public class BoulderDashModel {
         return new AbstractPosition(line, col, 'L');
     }
 
-    /**
-     * Tries to return the empty position in the neighborhood of line col
-     *
-     * @param center position to find empty in its neighborhood
-     * @return the empty position or null if non-existent in the neighborhood
-     */
-    private AbstractPosition getEmptyInNeighborhood(AbstractPosition center) {
-        boolean isNeighbor = Math.abs(center.getLine() - emptyAbstractPosition.getLine()) == 1 ^
-                Math.abs(center.getCol() - emptyAbstractPosition.getCol()) == 1;
-        return isNeighbor ? emptyAbstractPosition : null;
+
+    public void pieceSelected(AbstractPosition pos) {
+        this.movePieceAt(pos);
     }
+
+    public void keyPressed(Direction direction) {
+        AbstractPosition pos = this.board.getPositionNextToEmpty(direction);
+        this.movePieceAt(pos);
+    }
+
 
     /**
      * Wait the specified time in milliseconds
@@ -337,25 +195,6 @@ public class BoulderDashModel {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BoulderDashModel that = (BoulderDashModel) o;
-        return timerValue == that.timerValue &&
-                Arrays.equals(pieces, that.pieces) &&
-                Objects.equals(emptyAbstractPosition, that.emptyAbstractPosition) &&
-                Objects.equals(moves, that.moves) &&
-                Objects.equals(timer, that.timer) &&
-                Objects.equals(view, that.view);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(emptyAbstractPosition, moves, timer, timerValue, view);
-        result = 31 * result + Arrays.hashCode(pieces);
-        return result;
-    }
 
     /**
      * Creates a new timer and sets the timer count to zero
@@ -374,7 +213,7 @@ public class BoulderDashModel {
             @Override
             public void run() {
                 timerValue++;
-                notifyViews(null, false, timerValue);
+                notifyViews(null, timerValue);
             }
         };
         this.timer.schedule(timerTask, 0, 1000);
